@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SchoolManagement GH — Professional School Fees Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0a1628;--ink2:#1a2f4a;--blue:#1a4a8a;--blue2:#1d5499;
+  --gold:#b8960c;--gold2:#d4aa1a;--gold3:#e8c040;
+  --white:#ffffff;--off:#f8f7f4;--grey:#f0eeea;--border:#e0ddd8;
+  --text:#1a1a2a;--text2:#4a5568;--text3:#8a9ab0;--green:#0d5c3a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:70px;padding:0 72px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,0.96);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 20px rgba(10,22,40,0.06);
+  backdrop-filter:blur(12px);
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.brand-mark{
+  width:38px;height:38px;
+  background:var(--ink);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.brand-mark svg{width:22px;height:22px;fill:none;stroke:white;stroke-width:2;}
+.brand-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px;}
+.brand-name span{color:var(--blue);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--text2);text-decoration:none;transition:color .2s;letter-spacing:.1px;}
+.nav-links a:hover{color:var(--ink);}
+.nav-ctas{display:flex;gap:10px;align-items:center;}
+.btn-ghost{padding:9px 22px;border-radius:6px;font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;border:1.5px solid var(--border);transition:all .2s;}
+.btn-ghost:hover{border-color:var(--ink);}
+.btn-solid{padding:9px 22px;border-radius:6px;font-size:13.5px;font-weight:700;color:var(--white);background:var(--blue);text-decoration:none;transition:all .2s;}
+.btn-solid:hover{background:var(--blue2);box-shadow:0 4px 16px rgba(26,74,138,.3);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80');
+  background-size:cover;
+  background-position:center 30%;
+  filter:brightness(0.35) saturate(0.8);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    105deg,
+    rgba(10,22,40,0.92) 0%,
+    rgba(10,22,40,0.75) 45%,
+    rgba(10,22,40,0.30) 100%
+  );
+}
+.hero-inner{
+  position:relative;z-index:1;
+  max-width:1200px;margin:0 auto;padding:120px 72px 80px;
+  width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+  align-items:center;
+}
+.hero-left{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);
+  padding:6px 16px;border-radius:4px;
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:32px;
+}
+.hero-eyebrow::before{content:'';width:18px;height:1.5px;background:var(--gold3);}
+.hero h1{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(38px,3.8vw,58px);
+  font-weight:700;
+  color:var(--white);
+  line-height:1.12;
+  letter-spacing:-.5px;
+  margin-bottom:24px;
+}
+.hero h1 em{font-style:italic;color:var(--gold3);}
+.hero-desc{
+  font-size:17px;color:rgba(255,255,255,.65);
+  line-height:1.8;margin-bottom:44px;
+  font-weight:300;max-width:480px;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:60px;}
+.btn-hero-gold{
+  padding:15px 32px;border-radius:6px;
+  font-size:15px;font-weight:700;
+  background:var(--gold2);color:var(--ink);
+  text-decoration:none;
+  transition:all .2s;
+  letter-spacing:.2px;
+}
+.btn-hero-gold:hover{background:var(--gold3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,170,26,.4);}
+.btn-hero-outline{
+  padding:15px 32px;border-radius:6px;
+  font-size:15px;font-weight:600;
+  background:transparent;color:rgba(255,255,255,.9);
+  border:1.5px solid rgba(255,255,255,.3);
+  text-decoration:none;transition:all .2s;
+}
+.btn-hero-outline:hover{border-color:rgba(255,255,255,.7);}
+.hero-proof{
+  display:flex;align-items:center;gap:20px;
+  padding-top:28px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.proof-avatars{display:flex;}
+.proof-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold2),var(--blue));
+  border:2px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Libre Baskerville',serif;
+  font-size:13px;font-weight:700;color:white;
+  margin-right:-10px;
+}
+.proof-text{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;}
+.proof-text strong{color:rgba(255,255,255,.9);}
+
+/* DASHBOARD CARD */
+.hero-right{}
+.dash-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.5);
+  backdrop-filter:blur(10px);
+}
+.dash-titlebar{
+  background:rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.dash-dots{display:flex;gap:6px;}
+.dash-dot{width:10px;height:10px;border-radius:50%;}
+.dash-title-text{font-size:12px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.3px;}
+.dash-live-pill{
+  display:flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;color:#4ade80;
+  background:rgba(74,222,128,.1);
+  padding:3px 10px;border-radius:20px;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.dash-live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.dash-body{padding:20px;}
+.dash-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.kpi{background:rgba(255,255,255,.05);border-radius:8px;padding:12px 14px;}
+.kpi-label{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.kpi-val{font-size:17px;font-weight:800;color:var(--white);}
+.kpi-val.y{color:var(--gold3);}.kpi-val.g{color:#4ade80;}.kpi-val.r{color:#f87171;}
+.dash-section-label{font-size:9px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.dash-rows{display:flex;flex-direction:column;gap:4px;}
+.dash-row{
+  display:grid;grid-template-columns:1fr auto auto;gap:12px;
+  padding:9px 12px;border-radius:7px;
+  align-items:center;transition:background .15s;
+}
+.dash-row:hover{background:rgba(255,255,255,.04);}
+.d-student{font-size:12px;font-weight:600;color:rgba(255,255,255,.85);}
+.d-class{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;}
+.d-amount{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-align:right;}
+.d-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:3px;text-align:center;min-width:44px;}
+.d-badge.paid{background:rgba(74,222,128,.15);color:#4ade80;}
+.d-badge.part{background:rgba(212,170,26,.15);color:var(--gold3);}
+
+/* TRUST STRIP */
+.trust-strip{
+  background:var(--off);
+  border-bottom:1px solid var(--border);
+  padding:22px 72px;
+}
+.trust-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:32px;}
+.trust-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap;}
+.trust-line{width:1px;height:24px;background:var(--border);flex-shrink:0;}
+.trust-items{display:flex;gap:36px;flex-wrap:wrap;}
+.trust-item{font-size:13px;font-weight:600;color:var(--text3);display:flex;align-items:center;gap:8px;}
+.trust-tick{width:16px;height:16px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.trust-tick svg{width:9px;height:9px;stroke:white;stroke-width:3;fill:none;}
+
+/* CONTAINERS */
+.section{padding:100px 0;}
+.section-alt{background:var(--off);padding:100px 0;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 72px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:24px;height:2px;background:var(--blue);border-radius:2px;flex-shrink:0;}
+.heading{font-family:'Libre Baskerville',serif;font-size:clamp(30px,2.8vw,44px);font-weight:700;color:var(--ink);line-height:1.15;letter-spacing:-.3px;margin-bottom:16px;}
+.subtext{font-size:17px;color:var(--text2);line-height:1.75;max-width:520px;font-weight:300;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px;}
+.feat{background:var(--white);padding:36px 32px;transition:background .2s;position:relative;}
+.feat-alt{background:var(--off);}
+.feat:hover{background:var(--grey);}
+.feat-icon{width:48px;height:48px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.feat-icon svg{width:24px;height:24px;stroke:white;stroke-width:1.8;fill:none;}
+.feat-title{font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.feat-desc{font-size:13.5px;color:var(--text2);line-height:1.72;}
+.feat-line{position:absolute;bottom:0;left:32px;right:32px;height:2px;background:var(--blue);border-radius:2px;transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.feat:hover .feat-line{transform:scaleX(1);}
+
+/* HOW */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:56px;position:relative;}
+.how-grid::before{content:'';position:absolute;top:32px;left:calc(12.5% + 20px);right:calc(12.5% + 20px);height:1px;background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 8px,transparent 8px,transparent 18px);}
+.how-item{text-align:center;position:relative;z-index:1;}
+.how-circle{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--white);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  font-family:'Libre Baskerville',serif;
+  font-size:22px;font-weight:700;color:var(--text3);
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(0,0,0,.06);
+}
+.how-item:hover .how-circle{background:var(--blue);border-color:var(--blue);color:var(--white);box-shadow:0 8px 24px rgba(26,74,138,.3);}
+.how-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.how-desc{font-size:13.5px;color:var(--text2);line-height:1.65;}
+
+/* WHY */
+.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:56px;}
+.why-points{display:flex;flex-direction:column;gap:28px;}
+.why-point{display:flex;gap:18px;}
+.why-num{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--ink);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;flex-shrink:0;margin-top:2px;
+  font-family:'Libre Baskerville',serif;
+}
+.why-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.why-desc{font-size:13.5px;color:var(--text2);line-height:1.68;}
+
+/* PHONE PREVIEW */
+.phone-frame{
+  background:var(--ink);border-radius:20px;padding:28px;
+  box-shadow:0 32px 64px rgba(10,22,40,.2);
+  border:1px solid rgba(255,255,255,.06);
+}
+.pf-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;}
+.sms-bubble-wrap{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:14px;}
+.sms-sender{font-size:10px;font-weight:700;color:var(--gold3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px;}
+.sms-body{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;}
+.sms-body strong{color:var(--white);}
+.sms-time{font-size:10px;color:rgba(255,255,255,.25);text-align:right;margin-top:10px;display:flex;align-items:center;justify-content:flex-end;gap:4px;}
+.sms-delivered{color:#4ade80;}
+.portal-wrap{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;}
+.portal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.portal-student-name{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);}
+.portal-student-class{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px;}
+.portal-active{font-size:10px;font-weight:700;background:rgba(74,222,128,.12);color:#4ade80;padding:4px 10px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase;}
+.portal-terms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.portal-term{background:rgba(255,255,255,.04);border-radius:7px;padding:10px;text-align:center;}
+.pt-label{font-size:9px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.pt-val{font-size:13px;font-weight:800;}
+.pt-val.paid{color:#4ade80;}.pt-val.owed{color:#f87171;}.pt-val.none{color:rgba(255,255,255,.2);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px;}
+.testi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:32px;transition:box-shadow .2s;position:relative;}
+.testi:hover{box-shadow:0 8px 32px rgba(0,0,0,.07);}
+.testi-quote-mark{font-family:'Libre Baskerville',serif;font-size:64px;line-height:.8;color:var(--border);position:absolute;top:24px;right:28px;font-weight:700;}
+.testi-stars{display:flex;gap:3px;margin-bottom:16px;}
+.testi-star{width:14px;height:14px;fill:var(--gold2);}
+.testi-text{font-size:14.5px;color:var(--text2);line-height:1.75;margin-bottom:24px;font-style:italic;}
+.testi-divider{width:32px;height:2px;background:var(--blue);border-radius:2px;margin-bottom:20px;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-size:18px;font-weight:700;color:var(--white);flex-shrink:0;}
+.testi-name{font-size:14px;font-weight:700;color:var(--ink);}
+.testi-role{font-size:12px;color:var(--text3);margin-top:2px;}
+
+/* CONTACT */
+.contact-section{
+  background:linear-gradient(150deg,var(--ink) 0%,var(--ink2) 100%);
+  padding:100px 0;position:relative;overflow:hidden;
+}
+.contact-section::before{
+  content:'';position:absolute;
+  right:-200px;top:-200px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,74,138,.25) 0%,transparent 70%);
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1;}
+.contact-heading{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(30px,3vw,46px);font-weight:700;
+  color:var(--white);line-height:1.12;
+  letter-spacing:-.3px;margin-bottom:16px;
+}
+.contact-sub{font-size:17px;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:44px;font-weight:300;}
+.contact-btns{display:flex;flex-direction:column;gap:12px;}
+.btn-wa{
+  background:#25d366;color:var(--white);
+  padding:18px 28px;border-radius:8px;
+  font-size:15px;font-weight:700;text-decoration:none;
+  display:flex;align-items:center;gap:16px;
+  transition:all .2s;
+}
+.btn-wa:hover{background:#1ebc58;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.3);}
+.btn-wa-icon{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.btn-wa-icon svg{width:20px;height:20px;fill:white;}
+.btn-phone{
+  background:rgba(255,255,255,.07);color:var(--white);
+  padding:18px 28px;border-radius:8px;
+  font-size:15px;font-weight:600;text-decoration:none;
+  display:flex;align-items:center;gap:16px;
+  border:1px solid rgba(255,255,255,.12);
+  transition:all .2s;
+}
+.btn-phone:hover{background:rgba(255,255,255,.11);}
+.btn-phone-icon{width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.btn-phone-icon svg{width:18px;height:18px;stroke:white;stroke-width:2;fill:none;}
+.contact-info-cards{display:flex;flex-direction:column;gap:16px;}
+.contact-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:22px 24px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:background .2s;
+}
+.contact-card:hover{background:rgba(255,255,255,.08);}
+.cc-icon{
+  width:44px;height:44px;
+  background:rgba(255,255,255,.08);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cc-icon svg{width:20px;height:20px;stroke:rgba(255,255,255,.7);stroke-width:1.8;fill:none;}
+.cc-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.cc-value{font-size:15px;font-weight:600;color:var(--white);}
+.cc-note{font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;line-height:1.5;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.06);padding:40px 0;}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-brand{font-size:15px;font-weight:700;color:var(--white);}
+.footer-brand span{color:var(--gold3);}
+.footer-links{display:flex;gap:28px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:rgba(255,255,255,.8);}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.2);}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.r.v{opacity:1;transform:translateY(0);}
+.r2{opacity:0;transform:translateY(28px);transition:opacity .7s ease .12s,transform .7s ease .12s;}
+.r2.v{opacity:1;transform:translateY(0);}
+
+@media(max-width:960px){
+  nav{padding:0 24px;}.nav-links{display:none;}
+  .hero-inner{grid-template-columns:1fr;padding:110px 24px 60px;}.hero-right{display:none;}
+  .trust-strip{padding:16px 24px;}
+  .wrap{padding:0 24px;}
+  .section,.section-alt{padding:64px 0;}
+  .feat-grid{grid-template-columns:1fr;}
+  .how-grid{grid-template-columns:1fr 1fr;}.how-grid::before{display:none;}
+  .why-layout{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .contact-section{padding:64px 0;}.contact-grid{grid-template-columns:1fr;gap:48px;}
+  footer{padding:28px 0;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="brand-name">School<span>Management</span> GH</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="#contact" class="btn-ghost">Request Demo</a>
+    <a href="#contact" class="btn-solid">Get Started</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Designed for Ghana</div>
+      <h1>Every school deserves<br>to run like a<br><em>well-managed business.</em></h1>
+      <p class="hero-desc">SchoolManagement GH gives private schools across Ghana a complete, professional platform to manage fees, communicate with parents, and run their finances with confidence.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/233538350574?text=Hello,%20I%20want%20to%20learn%20more%20about%20SchoolManagement%20GH" class="btn-hero-gold" target="_blank">Start Free Trial</a>
+        <a href="#features" class="btn-hero-outline">See How It Works</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-avatars">
+          <div class="proof-avatar">A</div>
+          <div class="proof-avatar">K</div>
+          <div class="proof-avatar">E</div>
+          <div class="proof-avatar">M</div>
+        </div>
+        <div class="proof-text"><strong>Schools across Ghana</strong> trust SchoolManagement GH<br>to manage their student fees and parent communications.</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="dash-card">
+        <div class="dash-titlebar">
+          <div class="dash-dots">
+            <div class="dash-dot" style="background:#ff5f56;"></div>
+            <div class="dash-dot" style="background:#ffbd2e;"></div>
+            <div class="dash-dot" style="background:#27c93f;"></div>
+          </div>
+          <div class="dash-title-text">SchoolManagement GH</div>
+          <div class="dash-live-pill"><div class="dash-live-dot"></div>Live</div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-kpis">
+            <div class="kpi"><div class="kpi-label">Billed</div><div class="kpi-val y">52,400</div></div>
+            <div class="kpi"><div class="kpi-label">Collected</div><div class="kpi-val g">41,200</div></div>
+            <div class="kpi"><div class="kpi-label">Owed</div><div class="kpi-val r">11,200</div></div>
+            <div class="kpi"><div class="kpi-label">Students</div><div class="kpi-val">186</div></div>
+          </div>
+          <div class="dash-section-label">Recent Payments</div>
+          <div class="dash-rows">
+            <div class="dash-row">
+              <div><div class="d-student">Ama Boateng</div><div class="d-class">Primary 4</div></div>
+              <div class="d-amount">GHS 680</div>
+              <div class="d-badge paid">Paid</div>
+            </div>
+            <div class="dash-row">
+              <div><div class="d-student">Kweku Asante</div><div class="d-class">JHS 2</div></div>
+              <div class="d-amount">GHS 850</div>
+              <div class="d-badge paid">Paid</div>
+            </div>
+            <div class="dash-row">
+              <div><div class="d-student">Akua Mensah</div><div class="d-class">KG 2</div></div>
+              <div class="d-amount">GHS 450</div>
+              <div class="d-badge part">Partial</div>
+            </div>
+            <div class="dash-row">
+              <div><div class="d-student">Kofi Darko</div><div class="d-class">Primary 1</div></div>
+              <div class="d-amount">GHS 520</div>
+              <div class="d-badge paid">Paid</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-label">Platform Guarantees</div>
+    <div class="trust-line"></div>
+    <div class="trust-items">
+      <div class="trust-item">
+        <div class="trust-tick"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        Secure Cloud Storage
+      </div>
+      <div class="trust-item">
+        <div class="trust-tick"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        Automatic SMS Receipts
+      </div>
+      <div class="trust-item">
+        <div class="trust-tick"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        Works on Any Device
+      </div>
+      <div class="trust-item">
+        <div class="trust-tick"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        30-Day Free Trial
+      </div>
+      <div class="trust-item">
+        <div class="trust-tick"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        Local Ghana Support
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="features">
+  <div class="wrap">
+    <div class="r">
+      <div class="eyebrow">Platform Features</div>
+      <h2 class="heading">Everything your school needs,<br>built into one system.</h2>
+      <p class="subtext">Replace notebooks, spreadsheets, and manual processes with a single platform designed for how Ghanaian schools actually work.</p>
+    </div>
+    <div class="feat-grid r2">
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div>
+        <div class="feat-title">Fee Collection and Receipts</div>
+        <div class="feat-desc">Record payments in seconds. Cash, Mobile Money, Bank Transfer, Cheque — every transaction receives a unique receipt number and is permanently recorded with the cashier name and date.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat feat-alt">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="feat-title">Automatic SMS to Parents</div>
+        <div class="feat-desc">Parents receive an SMS receipt the moment a payment is recorded. Send bulk fee reminders to every parent with an outstanding balance in a single action.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="feat-title">Parent Self-Service Portal</div>
+        <div class="feat-desc">Each parent receives a unique private link to check their child's fee balance and complete payment history — from any phone, anytime, without creating an account.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat feat-alt">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="feat-title">Financial Reports and Analytics</div>
+        <div class="feat-desc">Instant per-class, per-term fee collection reports. Monthly collection trend charts. Export clean, professional reports to PDF or Excel with a single click.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="feat-title">Student Records Management</div>
+        <div class="feat-desc">Complete student profiles with photos, class history, fee records, discounts, and guardian contact details. Import hundreds of students at once from Excel.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat feat-alt">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="feat-title">Staff Records and Payslips</div>
+        <div class="feat-desc">Manage staff records, salaries, and SSNIT deductions. Generate professional, itemized monthly payslips automatically for every member of staff.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="feat-title">Levies and Other Charges</div>
+        <div class="feat-desc">Track PTA levies, textbook fees, uniform fees, and exam levies completely separately from term school fees — each with their own payment records.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat feat-alt">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+        <div class="feat-title">Academic Year Management</div>
+        <div class="feat-desc">Start a new academic year with one action. Students are promoted automatically. All previous year data is archived and remains fully accessible whenever you need it.</div>
+        <div class="feat-line"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div class="feat-title">Security and Full Audit Trail</div>
+        <div class="feat-desc">Every action in the system is permanently logged — who recorded a payment, who edited a record, and exactly when. Complete transparency and accountability at all times.</div>
+        <div class="feat-line"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-alt" id="how">
+  <div class="wrap">
+    <div class="r">
+      <div class="eyebrow">Simple Process</div>
+      <h2 class="heading">Up and running in under one hour.</h2>
+      <p class="subtext">No technical knowledge required. We handle the entire setup for you and your school is live the same day.</p>
+    </div>
+    <div class="how-grid r2">
+      <div class="how-item">
+        <div class="how-circle">1</div>
+        <div class="how-title">Contact Us</div>
+        <div class="how-desc">Call or WhatsApp us with your school name. We create your account and send your private login link within the hour.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-circle">2</div>
+        <div class="how-title">Configure Your School</div>
+        <div class="how-desc">Log in and enter your school name, term fees per class, bank details, and school logo. Takes approximately ten minutes.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-circle">3</div>
+        <div class="how-title">Add Your Students</div>
+        <div class="how-desc">Upload your student list from Excel, or register students one by one. Fees fill in automatically based on the class selected.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-circle">4</div>
+        <div class="how-title">Go Live</div>
+        <div class="how-desc">Begin recording payments, sending SMS receipts to parents, and generating financial reports immediately — from any device.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="why">
+  <div class="wrap">
+    <div class="r">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2 class="heading">Built from the ground up<br>for Ghanaian schools.</h2>
+      <p class="subtext">Not a foreign system adapted for Ghana. Every feature, every currency, every workflow was designed with the Ghanaian school environment in mind.</p>
+    </div>
+    <div class="why-layout">
+      <div class="why-points r">
+        <div class="why-point">
+          <div class="why-num">1</div>
+          <div>
+            <div class="why-title">Built for Ghana</div>
+            <div class="why-desc">Ghana Cedis, Mobile Money, Ghana phone number formats, and the Creche to JHS class structure used in Ghanaian basic schools — everything works exactly as expected.</div>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">2</div>
+          <div>
+            <div class="why-title">Works on Any Device</div>
+            <div class="why-desc">Opens in any browser on phones, tablets, and computers. No application to download or install. Your staff can be working within minutes of receiving the link.</div>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">3</div>
+          <div>
+            <div class="why-title">Your Data is Fully Private</div>
+            <div class="why-desc">All data is encrypted and stored securely in the cloud, backed up automatically every day. Only your school can access your records. We never share your data.</div>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">4</div>
+          <div>
+            <div class="why-title">Dedicated Local Support</div>
+            <div class="why-desc">Call or WhatsApp us directly. We are based in Ghana, we respond quickly, and we speak your language. No dealing with overseas support teams or automated systems.</div>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">5</div>
+          <div>
+            <div class="why-title">Genuinely Affordable</div>
+            <div class="why-desc">A complete, professional system at a price Ghanaian private schools can sustain. All features included. No hidden fees. No contracts. Cancel at any time.</div>
+          </div>
+        </div>
+      </div>
+      <div class="r2">
+        <div class="phone-frame">
+          <div class="pf-label">What parents receive automatically</div>
+          <div class="sms-bubble-wrap">
+            <div class="sms-sender">SchoolManagement GH — Receipt</div>
+            <div class="sms-body">Dear <strong>Mr. Mensah</strong>, a payment of <strong>GHS 680.00</strong> has been received for your ward <strong>Kofi Mensah</strong> of Primary 3 for Term 1, 2024/2025. Thank you for your prompt payment. — <strong>Blessed Kids Academy</strong></div>
+            <div class="sms-time">
+              Sent automatically
+              <svg class="sms-delivered" viewBox="0 0 16 16" width="14" height="14" fill="none"><polyline points="2,8 5,11 10,6" stroke="#4ade80" stroke-width="2"/><polyline points="7,8 10,11 14,6" stroke="#4ade80" stroke-width="2"/></svg>
+              Delivered
+            </div>
+          </div>
+          <div class="pf-label" style="margin-top:4px;">Parent portal — fee balance view</div>
+          <div class="portal-wrap">
+            <div class="portal-header">
+              <div>
+                <div class="portal-student-name">Kofi Mensah</div>
+                <div class="portal-student-class">Primary 3 &middot; 2024/2025</div>
+              </div>
+              <div class="portal-active">Active</div>
+            </div>
+            <div class="portal-terms">
+              <div class="portal-term"><div class="pt-label">Term 1</div><div class="pt-val paid">Paid</div></div>
+              <div class="portal-term"><div class="pt-label">Term 2</div><div class="pt-val owed">GHS 350</div></div>
+              <div class="portal-term"><div class="pt-label">Term 3</div><div class="pt-val none">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-alt" id="testimonials">
+  <div class="wrap">
+    <div class="r">
+      <div class="eyebrow">Testimonials</div>
+      <h2 class="heading">Heard directly from<br>school administrators.</h2>
+    </div>
+    <div class="testi-grid r2">
+      <div class="testi">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <div class="testi-text">Before this system, I was chasing parents on WhatsApp and recording everything in exercise books. Now everything is organised and I can see who has paid at a glance. It has genuinely changed how I run the school office.</div>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">A</div>
+          <div>
+            <div class="testi-name">Abena Owusu</div>
+            <div class="testi-role">Bursar &middot; Private Basic School, Kumasi</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <div class="testi-text">The automatic SMS receipt is something parents really appreciate. They know immediately when their payment has been received. There are no more disputes or questions about whether money was paid. It has built trust between us and our parents.</div>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#0d6b4f,#065f46);">K</div>
+          <div>
+            <div class="testi-name">Kweku Darko</div>
+            <div class="testi-role">Headmaster &middot; Accra</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-quote-mark">"</div>
+        <div class="testi-stars">
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="testi-star" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <div class="testi-text">End of term financial reports used to take me two full days to prepare. Now I produce them in under a minute and export directly to Excel for the proprietor. The time I have saved is remarkable.</div>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#b8860b,#92400e);">E</div>
+          <div>
+            <div class="testi-name">Efua Mensah</div>
+            <div class="testi-role">Proprietress &middot; Takoradi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="contact-section" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="r">
+        <div class="eyebrow" style="color:var(--gold3);">Get Started Today</div>
+        <div class="contact-heading">Start your free<br>30-day trial.</div>
+        <p class="contact-sub">No payment required to begin. No contracts. We set everything up for you and your school will be live and operational within the hour.</p>
+        <div class="contact-btns">
+          <a href="https://wa.me/233538350574?text=Hello,%20I%20am%20interested%20in%20SchoolManagement%20GH%20for%20my%20school" class="btn-wa" target="_blank">
+            <div class="btn-wa-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:11px;opacity:.75;font-weight:400;">Chat with us on</div>
+              <div style="font-size:16px;font-weight:700;">WhatsApp — 0538 350 574</div>
+            </div>
+          </a>
+          <a href="tel:+233538350574" class="btn-phone">
+            <div class="btn-phone-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:11px;opacity:.55;font-weight:400;">Call us directly on</div>
+              <div style="font-size:15px;font-weight:700;">+233 53 835 0574</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-info-cards r2">
+        <div class="contact-card">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="cc-label">Setup Time</div>
+            <div class="cc-value">Under 1 hour</div>
+            <div class="cc-note">We create your account and send your private login link immediately after you contact us.</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <div class="cc-label">Free Trial</div>
+            <div class="cc-value">30 days — no payment required</div>
+            <div class="cc-note">Full access to every feature during your trial period. No credit card needed to start.</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="cc-label">Email</div>
+            <div class="cc-value">info@schoolmanagementgh.com</div>
+            <div class="cc-note">We respond within 2 hours on business days.</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="cc-label">Based In</div>
+            <div class="cc-value">Accra, Ghana</div>
+            <div class="cc-note">Ghanaian-built, Ghanaian-supported. We understand your school's needs firsthand.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">School<span>Management</span> GH</div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#how">How It Works</a>
+        <a href="#why">Why Us</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">2025 SchoolManagement GH. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('v'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r,.r2').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
